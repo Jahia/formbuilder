@@ -71,8 +71,6 @@
         <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
         <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
         <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
-        <scmVersion>1_x</scmVersion>
-        <scmVersionType>branch</scmVersionType>
     </scm> 
 
     <repositories>
