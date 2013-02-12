@@ -67,6 +67,14 @@
     <packaging>war</packaging>
     <description>This is a custom module for running on a Jahia server.</description>
 
+    <scm>
+        <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
+        <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
+        <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
+        <scmVersion>1_x</scmVersion>
+        <scmVersionType>branch</scmVersionType>
+    </scm> 
+
     <repositories>
         <repository>
             <id>jahia-public</id>
