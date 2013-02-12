@@ -51,6 +51,11 @@
     <name>Jahia Form Builder</name>
     <packaging>bundle</packaging>
     <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
+    <scm>
+        <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
+        <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
+        <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
+    </scm>    
     <repositories>
         <repository>
             <id>jahia-public</id>
