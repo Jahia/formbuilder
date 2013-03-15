@@ -41,6 +41,7 @@
 package org.jahia.modules.formbuilder.actions;
 
 import org.jahia.bin.Action;
+import org.jahia.modules.formbuilder.helper.FormBuilderHelper;
 import org.jahia.modules.formbuilder.taglib.FormFunctions;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.slf4j.Logger;
@@ -119,6 +120,7 @@ public class MailAction extends Action {
             bindings.put("formDatas",formDatas);
             bindings.put("formNode",node.getParent());
             bindings.put("formFields", FormFunctions.getFormFields(node.getParent()));
+            bindings.put("helper", new FormBuilderHelper());            
             bindings.put("submitter",renderContext.getUser());
             bindings.put("date",new DateTool());
             bindings.put("submissionDate", Calendar.getInstance());
