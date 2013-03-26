@@ -1,5 +1,7 @@
 package org.jahia.modules.formbuilder.helper;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +38,18 @@ public class FormBuilderHelper {
 						}
 					}
 					return "";  //Address not found
+				} else if(node.getNodeTypes().contains("jnt:birthdate")) {
+					values = fieldvalues.get("year");
+					if(values != null && values.size() > 0) {
+						if(values.size() == 1) {
+							return getBirthday(fieldvalues, 1);
+						} else { //multiple address fields
+							return getBirthday(fieldvalues, getFieldPosition(formNode, fieldname, "jnt:birthdate"));
+						}						
+					}
+					
 				} else if(node.getNodeTypes().contains("jnt:fileElement")) { //File
-					//TODO: when attachments are implemented
+				//TODO: when attachments are implemented
 					return "File Attachment currently not implemented";  
 				} 
 				return "";  //for instance for captcha
@@ -139,5 +151,27 @@ public class FormBuilderHelper {
 		}		
 		return address.toString();
 	}
-
+private static String getBirthday(Map<String, List<String>> values, int position) {
+	
+		Calendar date = Calendar.getInstance();
+		try {
+			List<String> subvalues = values.get("year");
+			if(subvalues != null && subvalues.size() >= position) {
+				date.set(Calendar.YEAR, Integer.parseInt(subvalues.get(position-1)));
+			}
+			subvalues = values.get("month");
+			if(subvalues != null && subvalues.size() >= position) {
+				date.set(Calendar.MONTH, Integer.parseInt(subvalues.get(position-1)) - 1); //starts from 0: UI: starts from 1
+			}
+			subvalues = values.get("day");
+			if(subvalues != null && subvalues.size() >= position) {
+				date.set(Calendar.DAY_OF_MONTH, Integer.parseInt(subvalues.get(position-1)));  
+			}	
+		}catch(NumberFormatException ex) {
+			logger.warn("Dateformat is not correct for datefield, see values: " + values, ex);
+			return "";
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date.getTime());
+	}
 }
