@@ -4,7 +4,7 @@
          xmlns:jmix="http://www.jahia.org/jahia/mix/1.0" xmlns:j="http://www.jahia.org/jahia/1.0"
          xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:rep="internal">
     <templateSets jcr:primaryType="jnt:templateSets">
-        <formbuilder j:dependencies="default" j:installedModules="Jahia Form Builder"
+        <formbuilder j:dependencies="default grid" j:installedModules="Jahia Form Builder"
                      j:originWS="default" j:siteType="module" j:title="Jahia Form Builder" j:wcagCompliance="true"
                      jcr:primaryType="jnt:virtualsite">
             <portlets j:originWS="default" jcr:primaryType="jnt:portletFolder"/>
