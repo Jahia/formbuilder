@@ -19,9 +19,14 @@
     })
 </script>
 </template:addResources>
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
+
 <p class="field">
 <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
-<input ${disabled} type="file" id="${currentNode.name}" name="${currentNode.name}"/>
+<input ${disabled} type="file" ${required} class="${required}" id="${currentNode.name}" name="${currentNode.name}"/>
 <c:if test="${renderContext.editMode}">
 <div class="formMarginLeft">
     <p><fmt:message key="label.listOfValidation"/></p>

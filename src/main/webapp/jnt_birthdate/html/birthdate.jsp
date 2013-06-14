@@ -1,11 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="template" uri="http://www.jahia.org/tags/templateLib" %>
+<%@ taglib prefix="ui" uri="http://www.jahia.org/tags/uiComponentsLib" %>
+<%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
+
 <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
 <span>
     <jsp:useBean id="now" class="java.util.Date" />
     <fmt:formatDate var="year" value="${now}" pattern="yyyy" />  
-    <select ${disabled} name="year">
+    <select ${disabled} name="year"  ${required} class="${required}">
               <option><fmt:message key="label.year"/></option>
               <c:forEach var="i" begin="0" end="${year - 1900}" step="1">
                   <option>${year - i}</option>

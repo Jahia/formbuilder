@@ -12,6 +12,10 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
 
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <div class="formMarginLeft">
@@ -24,7 +28,7 @@
         </c:if>
         </c:forEach>
     </c:if>
-    <input ${disabled} type="checkbox" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
+    <input ${disabled} type="checkbox" ${required} class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
     <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
 </c:forEach>
 <c:if test="${renderContext.editMode}">

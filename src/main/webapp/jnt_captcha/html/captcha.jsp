@@ -12,11 +12,16 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
+
 <div class="formMarginLeft">
     <template:captcha />
 
     <p>
-        <input ${disabled} type="text" id="inputCaptcha" name="jcrCaptcha"/>
+        <input ${disabled} type="text" ${required} class="${required}" id="inputCaptcha" name="jcrCaptcha"/>
         <c:if test="${not empty sessionScope.formError}">
             <label class="error">${sessionScope.formError}</label>
         </c:if>
