@@ -34,11 +34,12 @@
                         <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
                         <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
                         <c:if test="${fn:length(validations) > 0}">
+                    	<c:if test="${not empty rulesAdded}">,</c:if><c:set var="rulesAdded" value="true"/>
                         '${formElement.name}' : {
                             <c:forEach items="${jcr:getNodes(formElement,'jnt:formElementValidation')}" var="formElementValidation" varStatus="val">
                             <template:module node="${formElementValidation}" view="default" editable="true"/><c:if test="${not val.last}">,</c:if>
                             </c:forEach>
-                        }<c:if test="${not status.last}">,</c:if>
+                        }
                         </c:if>
                         </c:forEach>
                         </c:forEach>
