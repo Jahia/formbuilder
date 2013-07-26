@@ -2,6 +2,7 @@ package org.jahia.modules.formbuilder.actions;
 
 import org.jahia.bin.Action;
 import org.jahia.bin.ActionResult;
+import org.jahia.bin.Render;
 import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.render.RenderContext;
@@ -33,6 +34,7 @@ public class RedirectAction extends Action {
             }
         }
         if (actionNode != null && actionNode.hasProperty("node")) {
+            parameters.remove(Render.REDIRECT_TO);
             Node n = actionNode.getProperty("node").getNode();
             return new ActionResult(HttpServletResponse.SC_OK, n.getPath());
         }
