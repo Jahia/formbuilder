@@ -28,7 +28,7 @@
         </c:if>
         </c:forEach>
     </c:if>
-    <input ${disabled} type="checkbox" ${required} class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
+    <input ${disabled} type="checkbox" class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
     <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
 </c:forEach>
 <c:if test="${renderContext.editMode}">
