@@ -19,39 +19,40 @@
 
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <div class="formMarginLeft">
-<c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-    <c:set var="isChecked" value="false"/>
-    <c:if test="${not empty sessionScope.formError}">
-    <c:forEach items="${sessionScope.formDatas[currentNode.name]}" var="checked">
-        <c:if test="${option.name eq checked}">
-            <c:set var="isChecked" value="true"/>
+    <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
+        <c:set var="isChecked" value="false"/>
+        <c:if test="${not empty sessionScope.formError}">
+            <c:forEach items="${sessionScope.formDatas[currentNode.name]}" var="checked">
+                <c:if test="${option.name eq checked}">
+                    <c:set var="isChecked" value="true"/>
+                </c:if>
+            </c:forEach>
         </c:if>
-        </c:forEach>
-    </c:if>
-    <input ${disabled} type="checkbox" class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
-    <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
-</c:forEach>
-<c:if test="${renderContext.editMode}">
-    <p><fmt:message key="label.listOfOptions"/> </p>
-    <ol>
-        <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-            <li><template:module node="${option}" view="default" editable="true"/></li>
-        </c:forEach>
-    </ol>
-    <div class="addvalidation">
-        <span><fmt:message key="label.addListOption"/> </span>
-        <template:module path="*" nodeTypes="jnt:formListElement"/>
-    </div>
-
-    <p><fmt:message key="label.listOfValidation"/> </p>
-    <ol>
-    <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
-        <li><template:module node="${formElement}" view="edit"/></li>
+        <input ${disabled} type="checkbox" required="${required eq 'required'?'true':'false'}" class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>
+                           <c:if test="${required eq 'required'}">onclick='$("input:checkbox[name=${currentNode.name}]:checked").size()==0?$("input:checkbox[name=${currentNode.name}]").attr("required","true"):$("input:checkbox[name=${currentNode.name}]").removeAttr("required")'</c:if> />
+        <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
     </c:forEach>
-    </ol>
-    <div class="addvalidation">
-        <span><fmt:message key="label.addValidation"/> </span>
-        <template:module path="*" nodeTypes="jnt:formElementValidation"/>
-    </div>
-</c:if>
+    <c:if test="${renderContext.editMode}">
+        <p><fmt:message key="label.listOfOptions"/> </p>
+        <ol>
+            <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
+                <li><template:module node="${option}" view="default" editable="true"/></li>
+            </c:forEach>
+        </ol>
+        <div class="addvalidation">
+            <span><fmt:message key="label.addListOption"/> </span>
+            <template:module path="*" nodeTypes="jnt:formListElement"/>
+        </div>
+
+        <p><fmt:message key="label.listOfValidation"/> </p>
+        <ol>
+            <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
+                <li><template:module node="${formElement}" view="edit"/></li>
+            </c:forEach>
+        </ol>
+        <div class="addvalidation">
+            <span><fmt:message key="label.addValidation"/> </span>
+            <template:module path="*" nodeTypes="jnt:formElementValidation"/>
+        </div>
+    </c:if>
 </div>
