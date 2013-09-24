@@ -57,7 +57,6 @@ import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.jahia.services.usermanager.JahiaUser;
 import org.jahia.services.usermanager.JahiaUserManagerService;
-import org.jahia.settings.SettingsBean;
 
 import javax.jcr.NodeIterator;
 import javax.servlet.http.HttpServletRequest;
@@ -125,7 +124,7 @@ public class MailAction extends Action {
             bindings.put("date",new DateTool());
             bindings.put("submissionDate", Calendar.getInstance());
             bindings.put("locale", resource.getLocale());
-            mailService.sendMessageWithTemplate(mailTemplatePath,bindings,toMail, SettingsBean.getInstance().getMail_from(),
+            mailService.sendMessageWithTemplate(mailTemplatePath,bindings,toMail, mailService.getSettings().getFrom(),
                                                           null,null,resource.getLocale(), "Jahia Form Builder");
             logger.info("Form data is sent by e-mail");
         }
