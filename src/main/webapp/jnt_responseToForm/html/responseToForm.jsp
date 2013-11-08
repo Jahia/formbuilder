@@ -33,6 +33,10 @@
             </c:if>
             <c:if test="${empty formField.value}">
                 <jcr:nodeProperty node="${currentNode}" name="${formField.key}"/>
+                <c:set value="${jcr:getChildrenOfType(currentNode, 'jnt:file')}" var="files"/>
+                <c:forEach items="${files}" var="file">
+                    <template:option node="${file}" nodetype="jnt:file" view="detail"/>
+                </c:forEach>
             </c:if>
         </td>
     </c:forEach>
