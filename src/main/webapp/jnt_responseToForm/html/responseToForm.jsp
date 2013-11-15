@@ -22,22 +22,30 @@
         ${currentNode.properties['jcr:createdBy'].string}
     </td>
     <%--<td>--%>
-        <%--${currentNode.properties['originUrl'].string}--%>
+    <%--${currentNode.properties['originUrl'].string}--%>
     <%--</td>--%>
     <c:forEach items="${formFields}" var="formField">
-        <td>
-            <c:if test="${not empty formField.value}">
-                <jcr:nodePropertyRenderer node="${currentNode}"
-                                          name="${formField.key}"
-                                          renderer="${formField.value}"/>
-            </c:if>
-            <c:if test="${empty formField.value}">
-                <jcr:nodeProperty node="${currentNode}" name="${formField.key}"/>
-                <c:set value="${jcr:getChildrenOfType(currentNode, 'jnt:file')}" var="files"/>
-                <c:forEach items="${files}" var="file">
-                    <template:option node="${file}" nodetype="jnt:file" view="detail"/>
-                </c:forEach>
-            </c:if>
-        </td>
+        <c:if test="${!(formField.value eq 'file')}">
+            <td>
+                <c:choose>
+                    <c:when test="${not empty formField.value}">
+                        <jcr:nodePropertyRenderer node="${currentNode}"
+                                                  name="${formField.key}"
+                                                  renderer="${formField.value}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <jcr:nodeProperty node="${currentNode}" name="${formField.key}"/>
+                    </c:otherwise>
+                </c:choose>
+            </td>
+        </c:if>
     </c:forEach>
+    <td>
+        <c:if test="${currentResource.moduleParams.hasFile}">
+            <c:set value="${jcr:getChildrenOfType(currentNode, 'jnt:file')}" var="files"/>
+            <c:forEach items="${files}" var="file">
+                <template:option node="${file}" nodetype="jnt:file" view="detail"/><br>
+            </c:forEach>
+        </c:if>
+    </td>
 </tr>

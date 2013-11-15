@@ -2,6 +2,7 @@ package org.jahia.modules.formbuilder.taglib;
 
 import net.htmlparser.jericho.Source;
 import net.htmlparser.jericho.StartTag;
+import org.apache.commons.lang.StringUtils;
 import org.jahia.services.content.JCRContentUtils;
 import org.jahia.services.content.JCRNodeWrapper;
 
@@ -43,11 +44,19 @@ public class FormFunctions {
                     for (StartTag inputTag : inputTags) {
                         if ((inputTag.getName().equalsIgnoreCase("input") || inputTag.getName().equalsIgnoreCase("select") || inputTag.getName().equalsIgnoreCase("textarea"))
                                 && inputTag.getAttributeValue("name") != null) {
-                            m.put(inputTag.getAttributeValue("name"), null);
+                            if (StringUtils.equals(inputTag.getAttributeValue("type"),"file")) {
+                                m.put(inputTag.getAttributeValue("name"), "file");
+                            } else {
+                                m.put(inputTag.getAttributeValue("name"), null);
+                            }
                         }
                     }
                 } else {
-                    m.put(field.getName(), null);
+                    if (field.isNodeType("jnt:fileElement")) {
+                        m.put(field.getName(), "file");
+                    } else {
+                        m.put(field.getName(), null);
+                    }
                 }
             }
         }

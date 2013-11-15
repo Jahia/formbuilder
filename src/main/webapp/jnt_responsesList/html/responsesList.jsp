@@ -15,18 +15,31 @@
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <c:set value="${formbuilder:getFormFields(currentNode.parent)}" var="formFields" scope="request"/>
 <template:include view="hidden.header"/>
+<c:set var="hasFile" value="false"/>
 <table class="table">
     <tr>
         <th><fmt:message key="label.date"/></th>
         <th><fmt:message key="label.user"/></th>
         <%--<th><fmt:message key="label.url"/></th>--%>
         <c:forEach items="${formFields}" var="formField">
-        <th>${formField.key}</th>
+            <c:choose>
+                <c:when test="${formField.value eq 'file'}">
+                    <c:set var="hasFile" value="true"/>
+                </c:when>
+                <c:otherwise>
+                    <th>${formField.key}</th>
+                </c:otherwise>
+            </c:choose>
     </c:forEach>
+        <c:if test="${hasFile}">
+            <th><fmt:message key="label.form.files"/></th>
+        </c:if>
     </tr>
 
     <c:forEach items="${moduleMap.currentList}" var="subResponseNode" begin="${moduleMap.begin}" end="${moduleMap.end}">
-        <template:module node="${subResponseNode}" view="default"/>
+        <template:module node="${subResponseNode}" view="default">
+            <template:param name="hasFile" value="${hasFile}"/>
+        </template:module>
     </c:forEach>
 </table>
 <h2><fmt:message key="label.download"/> <a href="<c:url value='${url.base}${currentNode.path}.csv'/>">CSV</a></h2>
