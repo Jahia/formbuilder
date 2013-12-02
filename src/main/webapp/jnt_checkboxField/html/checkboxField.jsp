@@ -19,6 +19,21 @@
 
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <div class="formMarginLeft">
+<template:addResources type="inlinejavascript">
+<script type='text/javascript'>
+$(function() {
+   $('input[name="${currentNode.name}box"]').change(function() {
+       var values = $("input[name='${currentNode.name}box']:checked").map(function() {
+           return this.value;
+       }).get();
+        $('#${currentNode.name}').val(values.join(" "));
+    });
+});
+</script>
+</template:addResources>
+<input ${disabled} type="text" style="display:none" id="${currentNode.name}" name="${currentNode.name}"
+       value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
+       
     <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
         <c:set var="isChecked" value="false"/>
         <c:if test="${not empty sessionScope.formError}">
@@ -28,7 +43,7 @@
                 </c:if>
             </c:forEach>
         </c:if>
-        <input ${disabled} type="checkbox" ${required eq 'required'?'required':''} class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>
+        <input ${disabled} type="checkbox" ${required eq 'required'?'required':''} class="${required}" name="${currentNode.name}box" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>
                            <c:if test="${required eq 'required'}">onclick='$("input:checkbox[name=${currentNode.name}]:checked").size()==0?$("input:checkbox[name=${currentNode.name}]").attr("required","true"):$("input:checkbox[name=${currentNode.name}]").removeAttr("required")'</c:if> />
         <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
     </c:forEach>
