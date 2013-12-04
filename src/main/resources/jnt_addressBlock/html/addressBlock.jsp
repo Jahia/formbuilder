@@ -1,9 +1,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-
-
+<template:addResources type="inlinejavascript">
+<script type='text/javascript'>
+$(function() {
+   $('input[name="street"],input[name="street2"],input[name="city"],input[name="state"],input[name="zip"],input[name="country"]').change(function() {
+        var x = $('input[name="street"]').val()+' '
+                +$('input[name="street2"]').val()+' '
+                +$('input[name="city"]').val()+' '
+                +$('input[name="state"]').val()+' '
+                +$('input[name="zip"]').val()+' '
+                +$('input[name="country"]').val();
+        $('#${currentNode.name}').val(x);
+    });
+});
+</script>
+</template:addResources>
 <div>
+<input ${disabled} type="text" id="${currentNode.name}" name="${currentNode.name}"
+       value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
 <table cellpadding="4">
 	<tr>
     	<td><label for="street"><fmt:message key="address.street"/></label></td>
