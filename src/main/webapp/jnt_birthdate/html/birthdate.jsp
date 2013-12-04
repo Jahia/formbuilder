@@ -5,21 +5,24 @@
 <%@ taglib prefix="jcr" uri="http://www.jahia.org/tags/jcr" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<script type='text/javascript'>
+<c:set var="nodeId" value="${currentNode.identifier}"/>
+<template:addResources>
+<script type="text/javascript">
 $(function() {
-    $('select[name="year"],select[name="month"],select[name="day"]').change(function() {
-        var x = $('select[name="year"]').val()+'-'+$('select[name="month"]').val()+'-'+$('select[name="day"]').val();
-        $('#${currentNode.name}').val(x);
+    $('#birthdate-${nodeId} select[name="year"],#birthdate-${nodeId} select[name="month"],#birthdate-${nodeId} select[name="day"]').change(function() {
+        var x = $('#birthdate-${nodeId} select[name="year"]').val()+'-'+$('#birthdate-${nodeId} select[name="month"]').val()+'-'+$('#birthdate-${nodeId} select[name="day"]').val();
+        $('#birthdate-value-${nodeId}').val(x);
     });
 });
 </script>
+</template:addResources>
 
 <c:set var="required" value=""/>
 <c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
     <c:set var="required" value="required"/>
 </c:if>
-<p class="field">
-    <input ${disabled} type="text" style="display:none" ${required} class="${required}" id="${currentNode.name}" name="${currentNode.name}"
+<p class="field" id="birthdate-${nodeId}">
+    <input ${disabled} type="text" style="display:none" ${required} class="${required}" id="birthdate-value-${nodeId}" name="${currentNode.name}"
            value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
     <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
     <span>
