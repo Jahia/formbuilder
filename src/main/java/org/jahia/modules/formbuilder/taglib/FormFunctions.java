@@ -30,7 +30,7 @@ public class FormFunctions {
                     if (field.hasProperty("type")) {
                         String[] renderers = field.getProperty("type").getString().split("=");
                         String renderer = null;
-                        if (renderers.length>0) {
+                        if (renderers.length > 1) {
                             renderer = renderers[1];
                         }
                         m.put(field.getName(), renderer);
