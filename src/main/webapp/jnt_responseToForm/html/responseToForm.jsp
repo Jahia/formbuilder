@@ -40,12 +40,12 @@
             </td>
         </c:if>
     </c:forEach>
-    <td>
-        <c:if test="${currentResource.moduleParams.hasFile}">
+    <c:if test="${currentResource.moduleParams.hasFile}">
+        <td>
             <c:set value="${jcr:getChildrenOfType(currentNode, 'jnt:file')}" var="files"/>
             <c:forEach items="${files}" var="file">
                 <template:option node="${file}" nodetype="jnt:file" view="detail"/><br>
             </c:forEach>
-        </c:if>
-    </td>
+        </td>
+    </c:if>
 </tr>

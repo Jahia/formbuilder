@@ -14,7 +14,6 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <% pageContext.setAttribute("newLineChar", "\n"); %>
-<c:set value="${formbuilder:getFormFields(currentNode.parent)}" var="formFields" scope="request"/>
-date,user,url<c:forEach items="${formFields}" var="formField" varStatus="status">,${formField.key}</c:forEach>${fn:escapeXml(newLineChar)}
-<c:forEach items="${jcr:getDescendantNodes(currentNode,'jnt:responseToForm')}" var="subResponseNode"><template:module node="${subResponseNode}" view="default"/>${fn:escapeXml(newLineChar)}
+<c:set target="${renderContext}" property="contentType" value="text/csv;charset=UTF-8" /><c:set value="${formbuilder:getFormFields(currentNode.parent)}" var="formFields" scope="request"/>date,user,url<c:forEach items="${formFields}" var="formField"><c:choose><c:when test="${formField.value eq 'file'}"><c:set var="hasFile" value="true"/></c:when><c:otherwise>,${formField.key}</c:otherwise></c:choose></c:forEach><c:if test="${hasFile}">,files</c:if>${fn:escapeXml(newLineChar)}
+<c:forEach items="${jcr:getDescendantNodes(currentNode,'jnt:responseToForm')}" var="subResponseNode"><template:module node="${subResponseNode}" view="default"><template:param name="hasFile" value="${hasFile}"/></template:module>${fn:escapeXml(newLineChar)}
 </c:forEach>
