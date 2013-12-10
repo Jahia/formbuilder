@@ -38,9 +38,11 @@ $(function() {
             <c:set var="isChecked" value="true"/>
         </c:if>
         </c:forEach>
-    </c:if>
-    <input ${disabled} type="checkbox" name="${currentNode.name}box" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>/>
-    <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
+    </c:if>        
+    <label>
+        <input ${disabled} type="checkbox" ${required} class="${required}" name="${currentNode.name}box" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>
+                           <c:if test="${required eq 'required'}">onclick='$("input:checkbox[name=${currentNode.name}box]:checked").size()==0?$("input:checkbox[name=${currentNode.name}box]").prop("required", true):$("input:checkbox[name=${currentNode.name}box]").removeAttr("required")'</c:if> />
+        ${option.properties['jcr:title'].string}</label>
 </c:forEach>
 <c:if test="${renderContext.editMode}">
     <p><fmt:message key="label.listOfOptions"/> </p>
