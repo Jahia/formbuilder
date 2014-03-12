@@ -12,7 +12,11 @@ Jahia Form Builder Module
 
         * Action Zone
 
-          In this zone you must drop an action at least.
+          In this zone you must drop an action at least. If you create multiple actions, they will be executed in the order
+          there are created and the result sent back after the form submission will be the result of the last action executed.
+          For example, if you want to use the "save to the repository" action and a "redirect to page" action you have to
+          put them in this order : "save to the repository", "redirect to page".
+          You can switch them to change the order using drag&drop in Edit mode.
 
         * Fieldset Zone
 
