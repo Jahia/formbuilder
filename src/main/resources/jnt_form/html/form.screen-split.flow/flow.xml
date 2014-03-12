@@ -37,7 +37,7 @@
 	</view-state>
 
     <action-state id="finish">
-        <evaluate expression="customFormFlowHandler.executeActions(externalContext.nativeRequest)" />
+        <evaluate expression="customFormFlowHandler.executeActions(flowRequestContext, externalContext.nativeRequest)" />
         <transition on="ok" to="success" />
         <transition on="ko" to="cancel" />
     </action-state>

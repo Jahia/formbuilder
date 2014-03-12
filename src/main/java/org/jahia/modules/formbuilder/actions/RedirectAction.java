@@ -64,7 +64,7 @@ import java.util.Map;
 public class RedirectAction extends Action {
     @Override
     public ActionResult doExecute(HttpServletRequest req, RenderContext renderContext, Resource resource, JCRSessionWrapper session, Map<String, List<String>> parameters, URLResolver urlResolver) throws Exception {
-        JCRNodeWrapper node = renderContext.getMainResource().getNode();
+        JCRNodeWrapper node = resource.getNode();
         JCRNodeWrapper actionNode = null;
         NodeIterator nodes = node.getParent().getNode("action").getNodes();
         while (nodes.hasNext()) {

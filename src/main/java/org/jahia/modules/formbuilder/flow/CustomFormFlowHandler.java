@@ -51,6 +51,7 @@ import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.jahia.services.render.URLResolverFactory;
+import org.springframework.webflow.execution.RequestContext;
 
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
@@ -154,15 +155,22 @@ public class CustomFormFlowHandler implements Serializable {
         }
     }
 
-    public String executeActions(HttpServletRequest request) {
+    public String executeActions(RequestContext context, HttpServletRequest request) {
         try {
             JCRNodeWrapper action = JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(formUuid).getNode("action");
 
             NodeIterator n = action.getNodes();
+            ActionResult r = null;
             while (n.hasNext()) {
                 JCRNodeWrapper actionNode = (JCRNodeWrapper) n.next();
                 String actionName = actionNode.getProperty("j:action").getString();
-                ActionResult r = callAction(request, actionName);
+                if(actionName.equals("redirect")){
+                    r = callAction(request, actionName);
+                }
+            }
+
+            if(r != null && StringUtils.isNotEmpty(r.getUrl())){
+                getRenderContext(context).setRedirect(r.getUrl() + ".html");
             }
         } catch (RepositoryException e) {
 
@@ -192,6 +200,10 @@ public class CustomFormFlowHandler implements Serializable {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private RenderContext getRenderContext(RequestContext ctx) {
+        return (RenderContext) ctx.getExternalContext().getRequestMap().get("renderContext");
     }
 }
 
