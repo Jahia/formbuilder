@@ -28,17 +28,15 @@ $(function() {
 </script>
 </template:addResources>
 <input ${disabled} type="text" style="display:none" id="${currentNode.name}" name="${currentNode.name}"
-   value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
+   value="${sessionScope.formDatas[currentNode.name][0]}" readonly="readonly"/>
 
 <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
     <c:set var="isChecked" value="false"/>
-    <c:if test="${not empty sessionScope.formError}">
-    <c:forEach items="${sessionScope.formDatas[currentNode.name]}" var="checked">
+    <c:forEach items="${fn:split(sessionScope.formDatas[currentNode.name][0], ' ')}" var="checked">
         <c:if test="${option.name eq checked}">
             <c:set var="isChecked" value="true"/>
         </c:if>
         </c:forEach>
-    </c:if>        
     <label>
         <input ${disabled} type="checkbox" ${required} class="${required}" name="${currentNode.name}box" value="${option.name}" <c:if test="${isChecked eq 'true'}">checked="true"</c:if>
                            <c:if test="${required eq 'required'}">onclick='$("input:checkbox[name=${currentNode.name}box]:checked").size()==0?$("input:checkbox[name=${currentNode.name}box]").prop("required", true):$("input:checkbox[name=${currentNode.name}box]").removeAttr("required")'</c:if> />

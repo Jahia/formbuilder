@@ -6,6 +6,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="nodeId" value="${currentNode.identifier}"/>
+<c:set var="previousDate" value="${sessionScope.formDatas[currentNode.name][0]}"/>
+<c:if test="${not empty previousDate}">
+    <c:set var="splittedDate" value="${fn:split(sessionScope.formDatas[currentNode.name][0], '-')}"/>
+    <c:set var="previousYear" value="${splittedDate[0]}"/>
+    <c:set var="previousMonth" value="${splittedDate[1]}"/>
+    <c:set var="previousDay" value="${splittedDate[2]}"/>
+</c:if>
+
 <template:addResources>
 <script type="text/javascript">
 $(function() {
@@ -19,7 +27,7 @@ $(function() {
 
 <p class="field" id="birthdate-${nodeId}">
     <input ${disabled} type="text" style="display:none" id="birthdate-value-${nodeId}" name="${currentNode.name}"
-           value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
+           value="${date}" readonly="readonly"/>
     <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
     <span>
         <jsp:useBean id="now" class="java.util.Date" />
@@ -27,57 +35,20 @@ $(function() {
         <select ${disabled} name="year">
                   <option><fmt:message key="label.year"/></option>
                   <c:forEach var="i" begin="0" end="${year - 1900}" step="1">
-                      <option>${year - i}</option>
+                      <option <c:if test="${not empty previousYear && previousYear eq year - i}">selected="selected"</c:if>>${year - i}</option>
                   </c:forEach>
         </select>
         <select ${disabled} name="month">
             <option><fmt:message key="label.month"/></option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
-                  <option>11</option>
-                  <option>12</option>
+            <c:forEach var="i" begin="1" end="12" step="1">
+                <option <c:if test="${not empty previousMonth && previousMonth eq i}">selected="selected"</c:if>>${i}</option>
+            </c:forEach>
               </select>
         <select ${disabled} name="day">
             <option><fmt:message key="label.day"/></option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-            <option>7</option>
-            <option>8</option>
-            <option>9</option>
-            <option>10</option>
-            <option>11</option>
-            <option>12</option>
-            <option>13</option>
-            <option>14</option>
-            <option>15</option>
-            <option>16</option>
-            <option>17</option>
-            <option>18</option>
-            <option>19</option>
-            <option>20</option>
-            <option>21</option>
-            <option>22</option>
-            <option>23</option>
-            <option>24</option>
-            <option>25</option>
-            <option>26</option>
-            <option>27</option>
-            <option>28</option>
-            <option>29</option>
-            <option>30</option>
-            <option>31</option>
+            <c:forEach var="i" begin="1" end="31" step="1">
+                <option <c:if test="${not empty previousDay && previousDay eq i}">selected="selected"</c:if>>${i}</option>
+            </c:forEach>
         </select>
     </span>
 </p>

@@ -17,7 +17,7 @@ $(function() {
 </template:addResources>
 <div>
 <input ${disabled} type="text" id="${currentNode.name}" name="${currentNode.name}"
-       value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
+       value="${sessionScope.formDatas[currentNode.name][0]}" readonly="readonly"/>
 <table cellpadding="4">
 	<tr>
     	<td><label for="street"><fmt:message key="address.street"/></label></td>
