@@ -170,7 +170,9 @@ public class CustomFormFlowHandler implements Serializable {
             }
 
             if(r != null && StringUtils.isNotEmpty(r.getUrl())){
-                getRenderContext(context).setRedirect(r.getUrl() + ".html");
+                RenderContext renderContext = getRenderContext(context);
+                String redirect = StringUtils.isNotEmpty(request.getContextPath()) ? request.getContextPath() + r.getUrl() : r.getUrl();
+                renderContext.setRedirect(redirect + ".html");
             }
         } catch (RepositoryException e) {
 
