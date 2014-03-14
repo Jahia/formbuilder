@@ -164,8 +164,9 @@ public class CustomFormFlowHandler implements Serializable {
             while (n.hasNext()) {
                 JCRNodeWrapper actionNode = (JCRNodeWrapper) n.next();
                 String actionName = actionNode.getProperty("j:action").getString();
+                ActionResult result = callAction(request, actionName);
                 if(actionName.equals("redirect")){
-                    r = callAction(request, actionName);
+                    r = result;
                 }
             }
 
