@@ -212,7 +212,7 @@ public class CustomFormFlowHandler implements Serializable {
                     try {
                         return action.doExecute(request, renderContext, resource, session, formDatas, resolver);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error("Error executing action", e);
                     }
 
                     return null;
