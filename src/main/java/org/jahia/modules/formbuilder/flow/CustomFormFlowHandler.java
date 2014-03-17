@@ -50,17 +50,21 @@ import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.jahia.services.render.URLResolverFactory;
+import org.slf4j.Logger;
 import org.springframework.webflow.execution.RequestContext;
 
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.servlet.http.HttpServletRequest;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class CustomFormFlowHandler implements Serializable {
 
     private static final long serialVersionUID = -4761267217553714173L;
+    
+    private static Logger logger = org.slf4j.LoggerFactory.getLogger(CustomFormFlowHandler.class);
     
     private String workspace;
     private Locale locale;
@@ -88,7 +92,7 @@ public class CustomFormFlowHandler implements Serializable {
             workspace = form.getSession().getWorkspace().getName();
             locale = form.getSession().getLocale();
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.error("Error initializing CustomFormFlowHandler", e);
         }
     }
 
@@ -104,7 +108,7 @@ public class CustomFormFlowHandler implements Serializable {
                 return JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(fieldSets.get(currentFieldSetIndex-1));
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.error("Cannot get field set", e);
         }
         return null;
     }
@@ -121,7 +125,7 @@ public class CustomFormFlowHandler implements Serializable {
                 return JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(fieldSets.get(currentFieldSetIndex+1));
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.error("Cannot get field set", e);
         }
         return null;
     }
@@ -132,7 +136,7 @@ public class CustomFormFlowHandler implements Serializable {
                 return JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(fieldSets.get(currentFieldSetIndex));
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.error("Cannot get field set", e);
         }
         return null;
     }
@@ -150,7 +154,7 @@ public class CustomFormFlowHandler implements Serializable {
                 }
             }
         } catch (RepositoryException e) {
-            e.printStackTrace();
+            logger.error("Error saving values", e);
         }
     }
 
@@ -215,7 +219,7 @@ public class CustomFormFlowHandler implements Serializable {
                 }
             });
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in action", e);
         }
         return null;
     }
