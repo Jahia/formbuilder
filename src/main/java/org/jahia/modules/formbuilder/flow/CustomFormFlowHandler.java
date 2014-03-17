@@ -45,8 +45,7 @@ import org.jahia.bin.Action;
 import org.jahia.bin.ActionResult;
 import org.jahia.registries.ServicesRegistry;
 import org.jahia.services.SpringContextSingleton;
-import org.jahia.services.content.JCRNodeWrapper;
-import org.jahia.services.content.JCRSessionFactory;
+import org.jahia.services.content.*;
 import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
@@ -181,13 +180,13 @@ public class CustomFormFlowHandler implements Serializable {
         return "ok";
     }
 
-    public ActionResult callAction(HttpServletRequest request, String actionName) {
+    public ActionResult callAction(final HttpServletRequest request, String actionName) {
         try {
-            Action action = ServicesRegistry.getInstance().getJahiaTemplateManagerService().getActions().get(actionName);
-            RenderContext renderContext = (RenderContext) request.getAttribute("renderContext");
-            Map<String,List<String>> formDatas = (Map<String, List<String>>) request.getSession().getAttribute("formDatas");
+            final Action action = ServicesRegistry.getInstance().getJahiaTemplateManagerService().getActions().get(actionName);
+            final RenderContext renderContext = (RenderContext) request.getAttribute("renderContext");
+            final Map<String,List<String>> formDatas = (Map<String, List<String>>) request.getSession().getAttribute("formDatas");
             Resource mainResource = (Resource) request.getAttribute("currentResource");
-            Resource resource = new Resource(mainResource.getNode().getNode("responses"), mainResource.getTemplateType(), actionName, Resource.CONFIGURATION_PAGE);
+            final Resource resource = new Resource(mainResource.getNode().getNode("responses"), mainResource.getTemplateType(), actionName, Resource.CONFIGURATION_PAGE);
             URLResolver mainResolver = (URLResolver) request.getAttribute("urlResolver");
             String urlPathInfo = StringUtils.substringBefore(mainResolver.getUrlPathInfo(), mainResolver.getPath()) + resource.getNode().getPath();
             if (!actionName.equals("default")) {
@@ -197,8 +196,24 @@ public class CustomFormFlowHandler implements Serializable {
             }
 
             URLResolverFactory f = (URLResolverFactory) SpringContextSingleton.getBean("urlResolverFactory");
-            URLResolver resolver = f.createURLResolver(urlPathInfo, request.getServerName(), request);
-            return action.doExecute(request, renderContext, resource, JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale), formDatas, resolver);
+            final URLResolver resolver = f.createURLResolver(urlPathInfo, request.getServerName(), request);
+            JCRSessionWrapper sessionWrapper = JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale);
+
+            return JCRTemplate.getInstance().doExecuteWithSystemSession(sessionWrapper.getUser().getUsername(),
+                    workspace,
+                    locale, new JCRCallback<ActionResult>() {
+                public ActionResult doInJCR(JCRSessionWrapper session)
+                        throws RepositoryException {
+
+                    try {
+                        return action.doExecute(request, renderContext, resource, session, formDatas, resolver);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
