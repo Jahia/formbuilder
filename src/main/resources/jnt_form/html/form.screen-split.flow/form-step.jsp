@@ -107,6 +107,13 @@
         </template:tokenizedForm>
 </div>
 <br/><br/>
+    <c:if test="${displayCSV eq 'true'}">
+        <div>
+            <h2><fmt:message key="form.responses"/> : <a href="<c:url value='${url.baseLive}${currentNode.path}/responses.csv'/>" target="_blank">CSV</a> - <a href="<c:url value='${url.baseLive}${currentNode.path}/responses.html'/>" target="_blank">HTML</a></h2>
+                <%--<template:list path="responses" listType="jnt:responsesList" editable="true" />--%>
+        </div>
+    </c:if>
+
 </c:if>
 <c:if test="${renderContext.editMode}">
     <template:include view="default"/>
