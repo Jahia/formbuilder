@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<content xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-         xmlns:jnt="http://www.jahia.org/jahia/nt/1.0" xmlns:sv="http://www.jcp.org/jcr/sv/1.0"
-         xmlns:jmix="http://www.jahia.org/jahia/mix/1.0" xmlns:j="http://www.jahia.org/jahia/1.0"
-         xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:rep="internal">
-    <templateSets jcr:primaryType="jnt:templateSets">
-        <formbuilder j:dependencies="default grid" j:installedModules="Jahia Form Builder"
-                     j:originWS="default" j:siteType="module" j:title="Jahia Form Builder" j:wcagCompliance="true"
-                     jcr:primaryType="jnt:virtualsite">
-            <portlets j:originWS="default" jcr:primaryType="jnt:portletFolder"/>
-            <files j:originWS="default" jcr:primaryType="jnt:folder"/>
-            <contents j:originWS="default" jcr:primaryType="jnt:contentFolder"/>
-            <templates j:originWS="default" j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
-                <files j:originWS="default" jcr:primaryType="jnt:folder"/>
-                <contents j:originWS="default" jcr:primaryType="jnt:contentFolder"/>
-                <formresponse-template j:applyOn="jnt:responsesList" j:defaultTemplate="true" j:hiddenTemplate="false"
-                                       j:originWS="default" jcr:primaryType="jnt:contentTemplate">
-                    <pagecontent j:originWS="default" jcr:primaryType="jnt:contentList">
-                        <row column="1col16" j:originWS="default" jcr:primaryType="jnt:row"/>
+<content xmlns:j="http://www.jahia.org/jahia/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">
+    <modules jcr:primaryType="jnt:modules">
+        <formbuilder j:dependencies="default grid"
+                   j:installedModules="Builder Form Jahia"
+                   j:modulePriority="0"
+                   j:moduleType="module"
+                   j:title="Jahia Form Builder"
+                   jcr:primaryType="jnt:module">
+                
+                <portlets jcr:primaryType="jnt:portletFolder"/>
+                <files jcr:primaryType="jnt:folder"/>
+                <contents jcr:primaryType="jnt:contentFolder"/>
+                <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
+                    <files jcr:primaryType="jnt:folder"/>
+                    <contents jcr:primaryType="jnt:contentFolder"/>
+                    <formresponse-template j:applyOn="jnt:responsesList"
+                                   j:defaultTemplate="true"
+                                   j:hiddenTemplate="false"
+                                   jcr:primaryType="jnt:contentTemplate">
+                        <pagecontent jcr:primaryType="jnt:contentList">
+                            <row column="1col16" jcr:primaryType="jnt:row"/>
                     </pagecontent>
-                    <row-col1 j:originWS="default" jcr:primaryType="jnt:contentList">
-                        <pager displayPager="true"
-                               j:bindedComponent="/templateSets/formbuilder/templates/formresponse-template/row-col1/main-resource-display"
-                               j:originWS="default" jcr:primaryType="jnt:pager" pageSize="10"/>
-                        <main-resource-display j:originWS="default" jcr:primaryType="jnt:mainResourceDisplay"/>
+                        <row-col1 jcr:primaryType="jnt:contentList">
+                            <pager displayNbOfItemsPerPage="true"
+                         displayPager="true"
+                         j:bindedComponent="/modules/formbuilder/templates/formresponse-template/row-col1/main-resource-display"
+                         jcr:primaryType="jnt:pager"
+                         nbOfPages="10"
+                         pageSize="10"/>
+                            <main-resource-display jcr:primaryType="jnt:mainResourceDisplay"/>
                     </row-col1>
                 </formresponse-template>
             </templates>
+                
         </formbuilder>
-    </templateSets>
+    </modules>
 </content>
-

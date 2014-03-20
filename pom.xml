@@ -70,74 +70,73 @@
         please contact the sales department at sales@jahia.com.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>jahia-modules</artifactId>
-        <groupId>org.jahia.modules</groupId>
-        <version>7.0.0.0-SNAPSHOT</version>
-		<relativePath/>
-    </parent>
-    <version>2.0.0-SNAPSHOT</version>
-    <artifactId>formbuilder</artifactId>
-    <name>Jahia Form Builder</name>
-    <packaging>bundle</packaging>
-    <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
-    <scm>
-        <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
-        <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
-        <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
-    </scm>
-    <repositories>
-        <repository>
-            <id>jahia-public</id>
-            <name>Jahia Public Repository</name>
-            <url>https://devtools.jahia.com/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>jahia-releases</id>
-            <url>https://devtools.jahia.com/nexus/content/repositories/jahia-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>jahia-snapshots</id>
-            <url>https://devtools.jahia.com/nexus/content/repositories/jahia-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-						<Export-Package>org.jahia.modules.formbuilder.taglib</Export-Package>
-                        <Jahia-Depends>default,grid</Jahia-Depends>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.5.1</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <nexusUrl>https://devtools.jahia.com/nexus/</nexusUrl>
-                    <serverId>staging-repo</serverId>
-                    <stagingProfileId>64277f72646358</stagingProfileId>
-                </configuration>
-            </plugin>            
-        </plugins>
-    </build>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.jahia.modules</groupId>
+    <artifactId>jahia-modules</artifactId>
+    <version>7.0.0.0-SNAPSHOT</version>
+    <relativePath></relativePath>
+  </parent>
+  <artifactId>formbuilder</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
+  <packaging>bundle</packaging>
+  <name>Jahia Form Builder</name>
+  <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
+  <scm>
+    <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
+    <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
+    <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
+  </scm>
+  <distributionManagement>
+    <repository>
+      <id>jahia-releases</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/jahia-releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>jahia-snapshots</id>
+      <url>https://devtools.jahia.com/nexus/content/repositories/jahia-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>jahia-public</id>
+      <name>Jahia Public Repository</name>
+      <url>https://devtools.jahia.com/nexus/content/groups/public</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>org.jahia.modules.formbuilder.taglib</Export-Package>
+            <Jahia-Depends>default,grid</Jahia-Depends>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.5.1</version>
+        <extensions>true</extensions>
+        <configuration>
+          <nexusUrl>https://devtools.jahia.com/nexus/</nexusUrl>
+          <serverId>staging-repo</serverId>
+          <stagingProfileId>64277f72646358</stagingProfileId>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
