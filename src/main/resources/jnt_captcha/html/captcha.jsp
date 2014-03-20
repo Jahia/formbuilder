@@ -13,6 +13,11 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <div class="formMarginLeft">
+
+    <template:addCacheDependency flushOnPathMatchingRegexp="\\\\Q${currentNode.parent.parent.path}\\\\E/action/.*"/>
+    <template:addCacheDependency flushOnPathMatchingRegexp="\\\\Q${currentNode.parent.parent.path}\\\\E/fieldsets/.*"/>
+    <template:addCacheDependency flushOnPathMatchingRegexp="\\\\Q${currentNode.parent.parent.path}\\\\E/formButtons/.*"/>
+
     <template:captcha />
 
     <p>
