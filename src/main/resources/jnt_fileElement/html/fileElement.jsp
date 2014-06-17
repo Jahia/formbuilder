@@ -12,28 +12,33 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 <template:addResources>
-<script type="text/javascript">
-    $(document).ready(function() {
-         var form = $("\#${currentNode.parent.parent.parent.name}");
-        form.attr("enctype", "multipart/form-data");
-    })
-</script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var form = $("\#${currentNode.parent.parent.parent.name}");
+            form.attr("enctype", "multipart/form-data");
+        })
+    </script>
 </template:addResources>
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
+
 <p class="field">
 <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
-<input ${disabled} type="file" id="${currentNode.name}" name="${currentNode.name}"/>
+<input ${disabled} type="file" ${required} class="${required}" id="${currentNode.name}" name="${currentNode.name}"/>
 <c:if test="${renderContext.editMode}">
-<div class="formMarginLeft">
-    <p><fmt:message key="label.listOfValidation"/></p>
-    <ol>
-    <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
-        <li><template:module node="${formElement}" view="edit"/></li>
-    </c:forEach>
-    </ol>
+    <div class="formMarginLeft">
+        <p><fmt:message key="label.listOfValidation"/></p>
+        <ol>
+            <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
+                <li><template:module node="${formElement}" view="edit"/></li>
+            </c:forEach>
+        </ol>
         <div class="addvalidation">
-        <span><fmt:message key="label.addValidation"/></span>
-        <template:module path="*"/>
+            <span><fmt:message key="label.addValidation"/></span>
+            <template:module path="*"/>
+        </div>
     </div>
-</div>
 </c:if>
 </p>

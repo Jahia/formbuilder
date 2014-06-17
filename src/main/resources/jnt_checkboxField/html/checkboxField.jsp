@@ -13,6 +13,11 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
+
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <div class="formMarginLeft">
 <template:addResources type="inlinejavascript">

@@ -24,9 +24,13 @@ $(function() {
 });
 </script>
 </template:addResources>
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
 
 <p class="field" id="birthdate-${nodeId}">
-    <input ${disabled} type="text" style="display:none" id="birthdate-value-${nodeId}" name="${currentNode.name}"
+    <input ${disabled} type="text" style="display:none" id="birthdate-value-${nodeId}" ${required} class="${required}"  name="${currentNode.name}"
            value="${date}" readonly="readonly"/>
     <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
     <span>

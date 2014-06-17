@@ -12,38 +12,41 @@
 <%--@elvariable id="renderContext" type="org.jahia.services.render.RenderContext"--%>
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
-
+<c:set var="required" value=""/>
+<c:if test="${jcr:hasChildrenOfType(currentNode, 'jnt:required')}">
+    <c:set var="required" value="required"/>
+</c:if>
 
 <p class="field">
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
-<select ${disabled} name="${currentNode.name}">
+<select ${disabled} name="${currentNode.name}"  ${required} class="${required}">
     <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-        <option value="${option.name}" <c:if test="${not empty sessionScope.formDatas[currentNode.name][0] and sessionScope.formDatas[currentNode.name][0] eq option.name}">selected="true"</c:if>>${option.properties['jcr:title'].string}</option>
+        <option value="${option.name}" <c:if test="${not empty sessionScope.formError and sessionScope.formDatas[currentNode.name][0] eq option.name}">selected="true"</c:if>>${option.properties['jcr:title'].string}</option>
     </c:forEach>
 </select>
 <c:if test="${renderContext.editMode}">
-<div class="formMarginLeft">
-    <p><fmt:message key="label.listOfOptions"/> </p>
-    <ol>
-        <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-            <li><template:module node="${option}" view="default" editable="true"/></li>
-        </c:forEach>
-    </ol>
-    <div class="addvalidation">
-        <span><fmt:message key="label.addListOption"/> </span>
-        <template:module path="*" nodeTypes="jnt:formListElement"/>
-    </div>
+    <div class="formMarginLeft">
+        <p><fmt:message key="label.listOfOptions"/> </p>
+        <ol>
+            <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
+                <li><template:module node="${option}" view="default" editable="true"/></li>
+            </c:forEach>
+        </ol>
+        <div class="addvalidation">
+            <span><fmt:message key="label.addListOption"/> </span>
+            <template:module path="*" nodeTypes="jnt:formListElement"/>
+        </div>
 
-    <p><fmt:message key="label.listOfValidation"/> </p>
-    <ol>
-    <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
-        <li><template:module node="${formElement}" view="edit"/></li>
-    </c:forEach>
-    </ol>
-    <div class="addvalidation">
-        <span><fmt:message key="label.addValidation"/> </span>
-        <template:module path="*" nodeTypes="jnt:formElementValidation"/>
+        <p><fmt:message key="label.listOfValidation"/> </p>
+        <ol>
+            <c:forEach items="${jcr:getNodes(currentNode,'jnt:formElementValidation')}" var="formElement" varStatus="status">
+                <li><template:module node="${formElement}" view="edit"/></li>
+            </c:forEach>
+        </ol>
+        <div class="addvalidation">
+            <span><fmt:message key="label.addValidation"/> </span>
+            <template:module path="*" nodeTypes="jnt:formElementValidation"/>
+        </div>
     </div>
-</div>
 </c:if>
 </p>
