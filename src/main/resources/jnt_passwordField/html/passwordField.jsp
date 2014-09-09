@@ -19,5 +19,5 @@
 
 <p class="field">
     <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
-    <input ${disabled} type="password" ${required} class="${required}" name="${currentNode.name}" value=""/>
+    <input ${disabled} type="password" ${required} class="${required}" name="${currentNode.name}" value="" autocomplete="off"/>
 </p>
