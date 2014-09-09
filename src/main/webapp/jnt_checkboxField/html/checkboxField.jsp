@@ -36,7 +36,7 @@ $(function() {
        
     <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
         <c:set var="isChecked" value="false"/>
-        <c:if test="${not empty sessionScope.formError}">
+        <c:if test="${not empty sessionScope.formError and param['ec'] eq form.identifier }">
             <c:forEach items="${sessionScope.formDatas[currentNode.name]}" var="checked">
                 <c:if test="${option.name eq checked}">
                     <c:set var="isChecked" value="true"/>

@@ -20,7 +20,7 @@
 <p class="field">
 <label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
 <input ${disabled} type="text" ${required} class="${required}" id="${currentNode.name}" name="${currentNode.name}"
-       value="${not empty sessionScope.formError ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
+       value="${not empty sessionScope.formError and  param['ec'] eq form.identifier ? sessionScope.formDatas[currentNode.name][0] : ''}" readonly="readonly"/>
 <ui:dateSelector fieldId="${currentNode.name}"/>
 <c:if test="${renderContext.editMode}">
 <div class="formMarginLeft">

@@ -19,10 +19,9 @@
 
 <div class="formMarginLeft">
     <template:captcha />
-
     <p>
         <input ${disabled} type="text" ${required} class="${required}" id="inputCaptcha" name="jcrCaptcha"/>
-        <c:if test="${not empty sessionScope.formError}">
+        <c:if test="${not empty sessionScope.formError and  param['ec'] eq form.identifier }">
             <label class="error">${sessionScope.formError}</label>
         </c:if>
     </p>

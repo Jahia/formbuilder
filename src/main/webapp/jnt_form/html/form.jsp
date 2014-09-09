@@ -17,6 +17,7 @@
 <jcr:node var="actionNode" path="${currentNode.path}/action"/>
 <jcr:node var="fieldsetsNode" path="${currentNode.path}/fieldsets"/>
 <jcr:node var="formButtonsNode" path="${currentNode.path}/formButtons"/>
+<c:set var="form" value="${currentNode}" scope="request"/>
 <template:addCacheDependency node="${actionNode}"/>
 <template:addCacheDependency node="${fieldsetsNode}"/>
 <template:addCacheDependency node="${formButtonsNode}"/>
@@ -30,21 +31,21 @@
             $(document).ready(function() {
                 $("\#${currentNode.name}").validate({
                     rules: {
-                        <c:forEach items="${fieldsetsNode.nodes}" var="fieldset">
-                        <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
-                        <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
-                        <c:if test="${fn:length(validations) > 0}">
-                    	<c:if test="${not empty rulesAdded}">,</c:if><c:set var="rulesAdded" value="true"/>
-                        '${formElement.name}' : {
-                            <c:forEach items="${jcr:getNodes(formElement,'jnt:formElementValidation')}" var="formElementValidation" varStatus="val">
-                            <template:module node="${formElementValidation}" view="default" editable="true"/><c:if test="${not val.last}">,</c:if>
-                            </c:forEach>
-                        }
-                        </c:if>
-                        </c:forEach>
-                        </c:forEach>
-                    },formId : "${currentNode.name}"
-                });
+                    <c:forEach items="${fieldsetsNode.nodes}" var="fieldset">
+                    <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
+                    <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
+                    <c:if test="${fn:length(validations) > 0}">
+                    <c:if test="${not empty rulesAdded}">,</c:if><c:set var="rulesAdded" value="true"/>
+                    '${formElement.name}' : {
+                    <c:forEach items="${jcr:getNodes(formElement,'jnt:formElementValidation')}" var="formElementValidation" varStatus="val">
+                    <template:module node="${formElementValidation}" view="default" editable="true"/><c:if test="${not val.last}">,</c:if>
+                    </c:forEach>
+                }
+                </c:if>
+                </c:forEach>
+                </c:forEach>
+            },formId : "${currentNode.name}"
+            });
             });
         </script>
     </template:addResources>
@@ -93,10 +94,11 @@
     <c:if test="${not renderContext.editMode}">
         <template:tokenizedForm>
             <form action="<c:url value='${action}'/>" method="post" id="${currentNode.name}">
+                <input type="hidden" name="jcrResourceID" value="${currentNode.identifier}"/>
                 <input type="hidden" name="originUrl" value="${pageContext.request.requestURL}"/>
                 <input type="hidden" name="jcrNodeType" value="jnt:responseToForm"/>
                 <c:if test="${empty hasRedirect}">
-                <input type="hidden" name="jcrRedirectTo" value="<c:url value='${url.base}${renderContext.mainResource.node.path}'/>"/>
+                    <input type="hidden" name="jcrRedirectTo" value="<c:url value='${url.base}${renderContext.mainResource.node.path}'/>"/>
                 </c:if>
                     <%-- Define the output format for the newly created node by default html or by jcrRedirectTo--%>
                 <input type="hidden" name="jcrNewNodeOutputFormat" value="html"/>
@@ -149,7 +151,7 @@
 <c:if test="${displayCSV eq 'true'}">
     <div>
         <h2><fmt:message key="form.responses"/> : <a href="<c:url value='${url.baseLive}${currentNode.path}/responses.csv'/>" target="_blank">CSV</a> - <a href="<c:url value='${url.baseLive}${currentNode.path}/responses.html'/>" target="_blank">HTML</a></h2>
-        <%--<template:list path="responses" listType="jnt:responsesList" editable="true" />--%>
+            <%--<template:list path="responses" listType="jnt:responsesList" editable="true" />--%>
     </div>
 </c:if>
 
