@@ -25,7 +25,7 @@
 </c:if>
 
 <p class="field">
-<label class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
+<label for="${currentNode.name}" class="left">${fn:escapeXml(currentNode.properties['jcr:title'].string)}</label>
 <input ${disabled} type="file" ${required} class="${required}" id="${currentNode.name}" name="${currentNode.name}"/>
 <c:if test="${renderContext.editMode}">
     <div class="formMarginLeft">
