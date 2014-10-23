@@ -60,7 +60,6 @@ import org.jahia.settings.SettingsBean;
 
 import javax.jcr.NodeIterator;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -90,16 +89,23 @@ public class MailAction extends Action {
 
     public ActionResult doExecute(HttpServletRequest req, final RenderContext renderContext,
                                   final Resource resource, JCRSessionWrapper session, Map<String, List<String>> parameters, URLResolver urlResolver) throws Exception {
+    	
+    	/*check if the MailAction already started for this request. It could be the case when more as one
+    	  MailAction for the current form exists. */
+    	if(req.getAttribute("MailActionStarted") != null) {
+    		return ActionResult.OK;  //return first call send all emails
+    	}
+    	req.setAttribute("MailActionStarted", "1");
         JCRNodeWrapper node = renderContext.getMainResource().getNode();
         JCRNodeWrapper actionNode = null;
         NodeIterator nodes = node.getParent().getNode("action").getNodes();
         while (nodes.hasNext()) {
-            JCRNodeWrapper nodeWrapper = (JCRNodeWrapper) nodes.nextNode();
-            if(nodeWrapper.isNodeType("jnt:mailFormAction")) {
-                actionNode = (JCRNodeWrapper) nodeWrapper;
-            }
-        }
-        if (actionNode!=null) {
+          JCRNodeWrapper nodeWrapper = (JCRNodeWrapper) nodes.nextNode();
+          if(nodeWrapper.isNodeType("jnt:mailFormAction")) {
+              actionNode = (JCRNodeWrapper) nodeWrapper;
+          }
+        
+          if (actionNode!=null) {
             JahiaUser to = userManagerService.lookupUser(node.getSession().getNodeByUUID(actionNode.getProperty("j:to").getValue().getString()).getName());
             Set<String> reservedParameters = Render.getReservedParameters();
             final Map<String, List<String>> formDatas = new HashMap<String, List<String>>();
@@ -128,6 +134,8 @@ public class MailAction extends Action {
             mailService.sendMessageWithTemplate(mailTemplatePath,bindings,toMail, SettingsBean.getInstance().getMail_from(),
                                                           null,null,resource.getLocale(), "Jahia Form Builder");
             logger.info("Form data is sent by e-mail");
+          }
+          actionNode = null;
         }
         return ActionResult.OK;
     }
