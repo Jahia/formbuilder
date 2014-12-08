@@ -61,7 +61,7 @@
         <version>6.6.1.0</version>
     </parent>
     <artifactId>formbuilder</artifactId>
-	<version>1.9-SNAPSHOT</version>
+	<version>1.9</version>
     <name>Jahia Form Builder</name>
     <packaging>war</packaging>
     <description>This is a custom module for running on a Jahia server.</description>
