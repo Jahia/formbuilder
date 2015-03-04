@@ -55,7 +55,6 @@
         <c:set var="chainActive" value=""/>
         <c:forEach items="${actionNode.nodes}" var="node" varStatus="stat">
             <c:if test="${jcr:isNodeType(node, 'jnt:defaultFormAction')}"><c:set var="displayCSV" value="true"/></c:if>
-            <c:if test="${jcr:isNodeType(node, 'jnt:redirectFormAction')}"><c:set var="hasRedirect" value="true"/></c:if>
             <c:set var="chainActive" value="${chainActive}${node.properties['j:action'].string}"/>
             <c:if test="${not stat.last}"><c:set var="chainActive" value="${chainActive},"/></c:if>
         </c:forEach>
@@ -93,9 +92,7 @@
             <form action="<c:url value='${action}'/>" method="post" id="${currentNode.name}">
                 <input type="hidden" name="originUrl" value="${pageContext.request.requestURL}"/>
                 <input type="hidden" name="jcrNodeType" value="jnt:responseToForm"/>
-                <c:if test="${empty hasRedirect}">
                 <input type="hidden" name="jcrRedirectTo" value="<c:url value='${url.base}${renderContext.mainResource.node.path}'/>"/>
-                </c:if>
                     <%-- Define the output format for the newly created node by default html or by jcrRedirectTo--%>
                 <input type="hidden" name="jcrNewNodeOutputFormat" value="html"/>
                 <c:if test="${not empty chainActive}">
