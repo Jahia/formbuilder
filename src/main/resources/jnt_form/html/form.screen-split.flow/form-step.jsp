@@ -31,7 +31,7 @@
     <template:addResources>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("\#${currentNode.name}").validate({
+                $("\#${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}").validate({
                     rules: {
                         <c:forEach items="${jcr:getNodes(currentFieldSet,'jnt:formElement')}" var="formElement" varStatus="status">
                         <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
@@ -83,7 +83,7 @@
 <div class="Form FormBuilder">
 
         <template:tokenizedForm>
-            <form action="${flowExecutionUrl}" method="post" id="${currentNode.name}">
+            <form action="${flowExecutionUrl}" method="post" id="${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}">
                 <template:module node="${currentFieldSet}" editable="true"/>
 
 

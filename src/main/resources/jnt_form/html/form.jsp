@@ -26,7 +26,7 @@
     <template:addResources>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("\#${currentNode.name}").validate({
+                $("\#${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}").validate({
                     rules: {
                         <c:forEach items="${fieldsetsNode.nodes}" var="fieldset">
                         <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
@@ -89,7 +89,7 @@
 
     <c:if test="${not renderContext.editMode}">
         <template:tokenizedForm>
-            <form action="<c:url value='${action}'/>" method="post" id="${currentNode.name}">
+            <form action="<c:url value='${action}'/>" method="post" id="${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}">
                 <input type="hidden" name="originUrl" value="${pageContext.request.requestURL}"/>
                 <input type="hidden" name="jcrNodeType" value="jnt:responseToForm"/>
                 <input type="hidden" name="jcrRedirectTo" value="<c:url value='${url.base}${renderContext.mainResource.node.path}'/>"/>
