@@ -27,7 +27,7 @@
 <c:if test='${not writeable}'>
     <c:set var="disabled" value='disabled="true"' scope="request" />
 </c:if>
-<c:if test="${not renderContext.editMode}">
+<c:if test="${not renderContext.editMode and not empty currentFieldSet}">
     <template:addResources>
         <script type="text/javascript">
             $(document).ready(function() {
@@ -81,7 +81,7 @@
 </div>
 
 <div class="Form FormBuilder">
-
+    <c:if test="${not empty currentFieldSet}">
         <template:tokenizedForm>
             <form action="${flowExecutionUrl}" method="post" id="${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}">
                 <template:module node="${currentFieldSet}" editable="true"/>
@@ -105,6 +105,7 @@
                 <div class="validation"></div>
             </form>
         </template:tokenizedForm>
+    </c:if>
 </div>
 <br/><br/>
     <c:if test="${displayCSV eq 'true'}">
