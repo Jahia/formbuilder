@@ -10,7 +10,16 @@ formFields.each() { k, v ->
     if (v != "file") {
         print ","
         p = currentNode.properties[k]
-        if (p != null) print p.string
+        if (p != null) {
+			if(p.string.contains(",")){
+				print "\""
+				print p.string
+				print "\""
+			}
+			else {
+				print p.string
+			}	
+		}
     }
 }
 if (currentResource.moduleParams.hasFile) {
