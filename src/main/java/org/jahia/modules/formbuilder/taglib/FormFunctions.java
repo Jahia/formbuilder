@@ -82,7 +82,6 @@ public class FormFunctions {
                 } else if (field.isNodeType("jnt:htmlInput")) {
                     String html = field.getProperty("html").getString();
                     Source source = new Source(html);
-                    source.setLogger(null);
                     List<StartTag> inputTags = source.getAllStartTags();
                     for (StartTag inputTag : inputTags) {
                         if ((inputTag.getName().equalsIgnoreCase("input") || inputTag.getName().equalsIgnoreCase("select") || inputTag.getName().equalsIgnoreCase("textarea"))
