@@ -28,7 +28,7 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program. If not, see <http://www.gnu.org/licenses/>.
+        along with this program. If not, see <http://www.gnu.org/licenses />.
 
 
         2/ JSEL - Commercial and Supported Versions of the program
@@ -53,7 +53,7 @@
     <relativePath />
   </parent>
   <artifactId>formbuilder</artifactId>
-  <version>2.0.6-SNAPSHOT</version>
+  <version>2.0.6</version>
   <packaging>bundle</packaging>
   <name>Jahia Form Builder</name>
   <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
@@ -61,7 +61,7 @@
     <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
     <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
     <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
-    <tag>HEAD</tag>
+    <tag>2_0_6</tag>
   </scm>
   <distributionManagement>
     <repository>
