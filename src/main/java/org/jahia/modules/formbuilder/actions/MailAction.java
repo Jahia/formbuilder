@@ -47,6 +47,7 @@ import org.jahia.bin.Action;
 import org.jahia.modules.formbuilder.helper.FormBuilderHelper;
 import org.jahia.modules.formbuilder.taglib.FormFunctions;
 import org.jahia.services.content.JCRSessionWrapper;
+import org.jahia.services.content.decorator.JCRUserNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.velocity.tools.generic.DateTool;
@@ -102,7 +103,7 @@ public class MailAction extends Action {
             }
         }
         if (actionNode!=null) {
-            JahiaUser to = userManagerService.lookupUser(node.getSession().getNode(actionNode.getProperty("j:to").getValue().getString()).getName());
+            JCRUserNode to = userManagerService.lookupUser(node.getSession().getNode(actionNode.getProperty("j:to").getValue().getString()).getName());
             Set<String> reservedParameters = Render.getReservedParameters();
             final Map<String, List<String>> formDatas = new HashMap<String, List<String>>();
             Set<Map.Entry<String, List<String>>> set = parameters.entrySet();
