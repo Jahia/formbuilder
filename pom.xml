@@ -49,11 +49,11 @@
   <parent>
     <groupId>org.jahia.modules</groupId>
     <artifactId>jahia-modules</artifactId>
-    <version>7.0.0.0</version>
+    <version>7.1.0.0</version>
     <relativePath />
   </parent>
   <artifactId>formbuilder</artifactId>
-  <version>2.0.7-SNAPSHOT</version>
+  <version>3.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Jahia Form Builder</name>
   <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
