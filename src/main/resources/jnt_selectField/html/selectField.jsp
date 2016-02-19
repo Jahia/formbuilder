@@ -21,7 +21,7 @@
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <select ${disabled} name="${currentNode.name}"  ${required} class="${required}">
     <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-        <option value="${option.name}" <c:if test="${not empty sessionScope.formError and sessionScope.formDatas[currentNode.name][0] eq option.name}">selected="true"</c:if>>${option.properties['jcr:title'].string}</option>
+        <option value="${option.name}" <c:if test="${(not empty sessionScope.formError or not empty requestScope.isWebflow) and sessionScope.formDatas[currentNode.name][0] eq option.name}">selected="true"</c:if>>${option.properties['jcr:title'].string}</option>
     </c:forEach>
 </select>
 <c:if test="${renderContext.editMode}">

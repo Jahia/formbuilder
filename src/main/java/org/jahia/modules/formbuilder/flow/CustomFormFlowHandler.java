@@ -73,11 +73,14 @@ public class CustomFormFlowHandler implements Serializable {
     private Locale locale;
     private String formUuid;
     private List<String> fieldSets;
+    private Map<String, List<String>> formDatas;
+    private Map<String,Integer> storedSteps;
     private int currentFieldSetIndex;
 
     public void init(JCRNodeWrapper form, HttpServletRequest request) {
         try {
-            HashMap<String, List<String>> formDatas = new HashMap<String, List<String>>();
+            formDatas = new HashMap<String, List<String>>();
+            storedSteps = new HashMap<String, Integer>();
             request.getSession(true).setAttribute("formDatas", formDatas);
             formDatas.put("jcrNodeType", Arrays.asList("jnt:responseToForm"));
 
@@ -133,8 +136,14 @@ public class CustomFormFlowHandler implements Serializable {
         return null;
     }
 
-    public JCRNodeWrapper getCurrentFieldSet() {
+    public JCRNodeWrapper getCurrentFieldSet(HttpServletRequest request) {
         try {
+            request.setAttribute("isWebflow", true);
+            if (storedSteps.containsKey(request.getQueryString())) {
+                currentFieldSetIndex = storedSteps.get(request.getQueryString());
+            } else {
+                storedSteps.put(request.getQueryString(), currentFieldSetIndex);
+            }
             if (fieldSets.size() > 0) {
                 return JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(fieldSets.get(currentFieldSetIndex));
             }
@@ -145,8 +154,6 @@ public class CustomFormFlowHandler implements Serializable {
     }
 
     public void saveValues(HttpServletRequest request) {
-        Map<String,List<String>> formDatas = (Map<String, List<String>>) request.getSession().getAttribute("formDatas");
-
         try {
             JCRNodeWrapper fieldSet = JCRSessionFactory.getInstance().getCurrentUserSession(workspace, locale).getNodeByIdentifier(fieldSets.get(currentFieldSetIndex));
             NodeIterator ni =  fieldSet.getNodes();
@@ -156,6 +163,7 @@ public class CustomFormFlowHandler implements Serializable {
                     formDatas.put(formElement.getName(), Arrays.asList(request.getParameterValues(formElement.getName())));
                 }
             }
+            request.getSession(true).setAttribute("formDatas",formDatas);
         } catch (RepositoryException e) {
             logger.error("Error saving values", e);
         }

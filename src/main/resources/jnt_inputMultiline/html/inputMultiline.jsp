@@ -17,7 +17,7 @@
 
 <p class="field">
     <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
-    <textarea ${disabled} type="text" ${required} class="${required}" name="${currentNode.name}" cols="${currentNode.properties['cols'].string}" rows="${currentNode.properties['rows'].string}"><c:if test="${not empty sessionScope.formError}">${sessionScope.formDatas[currentNode.name][0]}</c:if><c:if test="${empty sessionScope.formError}">${currentNode.properties['defaultValue'].string}</c:if>
+    <textarea ${disabled} type="text" ${required} class="${required}" name="${currentNode.name}" cols="${currentNode.properties['cols'].string}" rows="${currentNode.properties['rows'].string}"><c:if test="${not empty sessionScope.formError or not empty requestScope.isWebflow}">${sessionScope.formDatas[currentNode.name][0]}</c:if><c:if test="${empty sessionScope.formError and empty requestScope.isWebflow}">${currentNode.properties['defaultValue'].string}</c:if>
     </textarea>
 
 <c:if test="${renderContext.editMode}">

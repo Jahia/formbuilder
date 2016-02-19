@@ -20,7 +20,7 @@
 <label class="left" for="${currentNode.name}">${currentNode.properties['jcr:title'].string}</label>
 <div class="formMarginLeft">
     <c:forEach items="${jcr:getNodes(currentNode,'jnt:formListElement')}" var="option">
-        <input ${disabled} type="radio" ${required} class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${not empty sessionScope.formError and sessionScope.formDatas[currentNode.name][0] eq option.name}">checked="true"</c:if>/>
+        <input ${disabled} type="radio" ${required} class="${required}" name="${currentNode.name}" id="${currentNode.name}" value="${option.name}" <c:if test="${(not empty sessionScope.formError or not empty requestScope.isWebflow) and sessionScope.formDatas[currentNode.name][0] eq option.name}">checked="true"</c:if>/>
         <label for="${currentNode.name}">${option.properties['jcr:title'].string}</label>
     </c:forEach>
     <c:if test="${renderContext.editMode}">
