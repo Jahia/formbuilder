@@ -14,7 +14,7 @@
 
 	<view-state id="form-step">
         <on-render>
-            <evaluate expression="customFormFlowHandler.currentFieldSet" result="requestScope.currentFieldSet" />
+            <evaluate expression="customFormFlowHandler.getCurrentFieldSet(externalContext.nativeRequest)" result="requestScope.currentFieldSet" />
             <evaluate expression="customFormFlowHandler.nextFieldSet" result="requestScope.nextFieldSet" />
             <evaluate expression="customFormFlowHandler.previousFieldSet" result="requestScope.previousFieldSet" />
         </on-render>
