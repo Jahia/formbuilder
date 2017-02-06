@@ -24,6 +24,7 @@
         <input ${disabled} type="text" ${required} class="${required}" id="inputCaptcha" name="jcrCaptcha"/>
         <c:if test="${not empty sessionScope.formError}">
             <label class="error">${sessionScope.formError}</label>
+            <c:set var="formError" value="" scope="session"/>
         </c:if>
     </p>
 </div>
