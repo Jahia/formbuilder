@@ -102,7 +102,8 @@ public class MailAction extends Action {
             }
         }
         if (actionNode!=null) {
-            JCRUserNode to = userManagerService.lookupUser(node.getSession().getNode(actionNode.getProperty("j:to").getValue().getString()).getName());
+            final String site = node.getResolveSite().getSiteKey();
+            JCRUserNode to = userManagerService.lookupUser(node.getSession().getNode(actionNode.getProperty("j:to").getValue().getString()).getName(), site, true);
             Set<String> reservedParameters = Render.getReservedParameters();
             final Map<String, List<String>> formDatas = new HashMap<String, List<String>>();
             Set<Map.Entry<String, List<String>>> set = parameters.entrySet();
