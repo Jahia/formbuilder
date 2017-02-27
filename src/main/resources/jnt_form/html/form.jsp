@@ -26,23 +26,23 @@
     <template:addResources>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("\#${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}").validate({
-                    rules: {
-                        <c:forEach items="${fieldsetsNode.nodes}" var="fieldset">
-                        <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
-                        <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
-                        <c:if test="${fn:length(validations) > 0}">
-						<c:if test="${not empty rulesAdded}">,</c:if><c:set var="rulesAdded" value="true"/>
-                        '${formElement.name}' : {
-                            <c:forEach items="${jcr:getNodes(formElement,'jnt:formElementValidation')}" var="formElementValidation" varStatus="val">
+            $("\#${fn:replace(fn:replace(currentNode.name,':','_'),' ','-')}").validate({
+            rules: {
+            <c:forEach items="${fieldsetsNode.nodes}" var="fieldset">
+                <c:forEach items="${jcr:getNodes(fieldset,'jnt:formElement')}" var="formElement" varStatus="status">
+                    <c:set var="validations" value="${jcr:getNodes(formElement,'jnt:formElementValidation')}"/>
+                    <c:if test="${fn:length(validations) > 0}">
+                        <c:if test="${not empty rulesAdded}">,</c:if><c:set var="rulesAdded" value="true"/>
+            '${formElement.name}' : {
+                        <c:forEach items="${jcr:getNodes(formElement,'jnt:formElementValidation')}" var="formElementValidation" varStatus="val">
                             <template:module node="${formElementValidation}" view="default" editable="true"/><c:if test="${not val.last}">,</c:if>
-                            </c:forEach>
-                        }
-                        </c:if>
                         </c:forEach>
-                        </c:forEach>
+            }
+                    </c:if>
+                </c:forEach>
+            </c:forEach>
                     },formId : "${currentNode.name}"
-                });
+            });
             });
         </script>
     </template:addResources>
@@ -93,7 +93,7 @@
                 <input type="hidden" name="originUrl" value="${pageContext.request.requestURL}"/>
                 <input type="hidden" name="jcrNodeType" value="jnt:responseToForm"/>
                 <input type="hidden" name="jcrRedirectTo" value="<c:url value='${url.base}${renderContext.mainResource.node.path}'/>"/>
-                    <%-- Define the output format for the newly created node by default html or by jcrRedirectTo--%>
+                <%-- Define the output format for the newly created node by default html or by jcrRedirectTo--%>
                 <input type="hidden" name="jcrNewNodeOutputFormat" value="html"/>
                 <input type="hidden" name="jcrResourceID" value="${currentNode.identifier}"/>
                 <c:if test="${not empty chainActive}">
@@ -109,6 +109,7 @@
                     </c:forEach>
                 </div>
                 <div class="validation"></div>
+                <c:set var="formError" value="" scope="session"/>
             </form>
         </template:tokenizedForm>
     </c:if>
