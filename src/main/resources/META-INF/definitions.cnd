@@ -58,7 +58,7 @@ orderable
 
 [jnt:mailFormAction] > jnt:formAction
  - j:action (string) = 'mail' autocreated hidden indexed=no
- - j:to (string,choicelist[users]) mandatory indexed=no
+ - j:to (string,picker[type='user']) mandatory indexed=no
 
 [jnt:defaultFormAction] > jnt:formAction
  - j:action (string) = 'default' autocreated hidden indexed=no

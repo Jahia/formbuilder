@@ -8,7 +8,6 @@
         <property name="initializersMap">
             <map key-type="java.lang.String" value-type="java.lang.String">
                 <entry key="country" value="country,flag;renderer=flagcountry"/>
-                <entry key="users" value="users"/>
             </map>
         </property>
     </bean>
