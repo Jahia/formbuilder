@@ -49,11 +49,11 @@
   <parent>
     <groupId>org.jahia.modules</groupId>
     <artifactId>jahia-modules</artifactId>
-    <version>7.1.0.0</version>
+    <version>8.0.0.0-SNAPSHOT</version>
     <relativePath />
   </parent>
   <artifactId>formbuilder</artifactId>
-  <version>3.0.2-SNAPSHOT</version>
+  <version>4.0.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>Jahia Form Builder</name>
   <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
@@ -63,6 +63,9 @@
     <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
     <tag>HEAD</tag>
   </scm>
+  <properties>
+    <jahia-module-signature>MCwCFCESXlAJ9+/j/JfO0iuN/+dwXnclAhQbhxDfJMPzyONZ+eJB3G9kE9qyqw==</jahia-module-signature>
+  </properties>
   <distributionManagement>
     <repository>
       <id>jahia-releases</id>
