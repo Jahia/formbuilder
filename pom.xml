@@ -63,6 +63,9 @@
     <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
     <tag>HEAD</tag>
   </scm>
+  <properties>
+    <jahia-module-signature>MCwCFCESXlAJ9+/j/JfO0iuN/+dwXnclAhQbhxDfJMPzyONZ+eJB3G9kE9qyqw==</jahia-module-signature>
+  </properties>
   <distributionManagement>
     <repository>
       <id>jahia-releases</id>
