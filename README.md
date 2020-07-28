@@ -4,7 +4,6 @@
 
 Jahia Form Builder Module
 ======================
-# 
 
  The form builder allows you to create forms to interact with you visitors (contact, questions, surveys, support, etc.).
 
