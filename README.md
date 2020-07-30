@@ -1,4 +1,9 @@
-# Jahia Form Builder Module
+<a href="https://www.jahia.com/">
+    <img src="https://www.jahia.com/modules/jahiacom-templates/images/jahia-3x.png" alt="Jahia logo" title="Jahia" align="right" height="60" />
+</a>
+
+Jahia Form Builder Module
+======================
 
  The form builder allows you to create forms to interact with you visitors (contact, questions, surveys, support, etc.).
 
@@ -74,3 +79,7 @@ In this area you must drop your buttons like submit button or reset button.
     </property>
 </bean>
 ```
+
+## Open-Source
+
+This is an Open-Source module, you can find more details about Open-Source @ Jahia [in this repository](https://github.com/Jahia/open-source).
