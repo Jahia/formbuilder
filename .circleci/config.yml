@@ -1,0 +1,188 @@
+version: 2.1
+
+orbs:
+  docker: circleci/docker@0.5.20
+  jq: circleci/jq@2.2.0
+  # IMPORTANT: When creating a module, use a fix version of the orb, not dev:alpha
+  # Find orbs release versions here: https://circleci.com/developer/orbs/orb/jahia/jahia-modules-orb
+  jahia-modules-orb: jahia/jahia-modules-orb@0.8.4
+
+# Parameters are available across the entire config file and can be used with this syntax: << pipeline.parameters.THE_PARAMETER >>
+# Avoid using project-specific variables in the jobs or steps.
+# Instead, declare those as pipeline parameters (At the top of the config file).
+# This eases portability of the config file across different modules
+parameters:
+  TESTS_MANIFEST: # Manifest to be executed by the test container when triggered from an API call
+    type: string
+    default: ""
+  MODULE_ID:
+    type: string
+    default: "formbuilder"
+  TESTRAIL_PROJECTNAME:
+    type: string
+    default: "Jahia Form Builder"
+  TESTRAIL_MILESTONE:
+    type: string
+    default: "Default"
+  GITHUB_SLUG:
+    type: string
+    default: "jahia/formbuilder"
+  PRIMARY_RELEASE_BRANCH:
+    type: string
+    default: "master"
+  JAHIA_IMAGE:
+    type: string
+    default: "jahia/jahia-discovery-dev:8-SNAPSHOT"
+  RELEASE_ID:
+    type: string
+    default: ""
+  RELEASE_VERSION:
+    type: string
+    default: ""
+  IS_RELEASE:
+    type: boolean
+    default: false
+  IS_ROLLBACK:
+    type: boolean
+    default: false
+  IS_MANUAL_TESTRUN: # Was the workflow triggered by an API call ?
+    type: boolean
+    default: false
+  SHOULD_SKIP_ARTIFACTS:
+    type: boolean
+    default: true
+  SHOULD_SKIP_TESTRAIL:
+    type: boolean
+    default: true
+  SHOULD_SKIP_NOTIFICATIONS:
+    type: boolean
+    default: true
+  SHOULD_SKIP_ZENCREPES:
+    type: boolean
+    default: false
+  UPDATE_SIGNATURE:
+    type: boolean
+    default: false
+  SSH_KEY_FINGERPRINT:
+    type: string
+    default: "f4:a2:4d:5f:5a:b8:4e:dc:36:b0:a5:83:5e:d1:70:20"
+
+workflows:
+  # On code change is executed each time new code is pushed to a branch
+  # Current project configuration in circleci only builds on PR + main, so effectively this is only being executed
+  on-code-change:
+    unless:
+      or:
+        - << pipeline.parameters.IS_RELEASE >>
+        - << pipeline.parameters.IS_ROLLBACK >>
+        - << pipeline.parameters.UPDATE_SIGNATURE >>
+        - << pipeline.parameters.IS_MANUAL_TESTRUN >>
+    jobs:
+      - jahia-modules-orb/initialize
+      - jahia-modules-orb/update-signature:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/initialize
+          pre-steps:
+            - jahia-modules-orb/update-signature-prestep
+          ssh_key_fingerprints:  << pipeline.parameters.SSH_KEY_FINGERPRINT >>
+      - jahia-modules-orb/static-analysis:
+          requires:
+            - jahia-modules-orb/initialize
+          auditci_level: high
+      - jahia-modules-orb/build:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/initialize
+            - jahia-modules-orb/update-signature
+      - jahia-modules-orb/sonar-analysis:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/build
+          primary_release_branch: << pipeline.parameters.PRIMARY_RELEASE_BRANCH >>
+          github_slug: << pipeline.parameters.GITHUB_SLUG >>
+      - jahia-modules-orb/publish:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/build
+          filters:
+            branches:
+              only:
+                - << pipeline.parameters.PRIMARY_RELEASE_BRANCH >>
+
+  # The on-release workflow was created to handle the full release lifecycle after creating a release using GitHub
+  # https://github.com/Jahia/formbuilder/releases
+  # The release is first created using the "pre-release" tag and a pipeline is triggered from a GitHub action
+  # This pipeline perform the following action:
+  # - Delete the tag created by GitHub (unnecessary)
+  # - Run mvn release:prepare
+  # - Run mvn release:perform
+  on-release:
+    when: << pipeline.parameters.IS_RELEASE >>
+    jobs:
+      - jahia-modules-orb/initialize
+      - jahia-modules-orb/release:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/generate-changelog
+          module_id: << pipeline.parameters.MODULE_ID >>
+          github_slug: << pipeline.parameters.GITHUB_SLUG >>
+          release_id: << pipeline.parameters.RELEASE_ID >>
+          release_version: << pipeline.parameters.RELEASE_VERSION >>
+          primary_release_branch: << pipeline.parameters.PRIMARY_RELEASE_BRANCH >>
+          ssh_key_fingerprints:  << pipeline.parameters.SSH_KEY_FINGERPRINT >>
+      - jahia-modules-orb/update-signature:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/release
+          ssh_key_fingerprints: << pipeline.parameters.SSH_KEY_FINGERPRINT >>
+      - wait-for-approval:
+          type: approval
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/release
+      - jahia-modules-orb/release-publication:
+          context: QA_ENVIRONMENT
+          requires:
+            - wait-for-approval
+          module_id: << pipeline.parameters.MODULE_ID >>
+          release_version: << pipeline.parameters.RELEASE_VERSION >>
+
+  # The on-rollback workflow was created to handle release rollback when a release has been deleted from Github
+  # The rollback pipeline/job performs the following action:
+  # - restore rollback artifact cache created from the release job
+  # - Run mvn:rollback
+  # - Delete github tag associated with the release
+  on-rollback:
+    when: << pipeline.parameters.IS_ROLLBACK >>
+    jobs:
+      - jahia-modules-orb/release-rollback:
+          context: QA_ENVIRONMENT
+          ssh_key_fingerprints: << pipeline.parameters.SSH_KEY_FINGERPRINT >>
+          release_id: << pipeline.parameters.RELEASE_ID >>
+          release_version: << pipeline.parameters.RELEASE_VERSION >>
+      - jahia-modules-orb/release-cancellation:
+          context: QA_ENVIRONMENT
+          requires:
+            - jahia-modules-orb/release-rollback
+          module_id: << pipeline.parameters.MODULE_ID >>
+          pipeline_id: << pipeline.id >>
+          release_version: << pipeline.parameters.RELEASE_VERSION >>
+
+  # The on-signature-update workflow was created to handle the signage of modules in case it needs to be done manually.
+  # https://github.com/Jahia/sandbox#manually-updating-signature-via-command-line
+  # The pipeline performs the following action:
+  # - Check the commit message that it contains [ci sign], [sign ci] or [jahia update signature]
+  # - Downloads the keymaker cli (version 2.0)
+  # - Obtain the new signature using the keymaker cli
+  # - Update the pom.xml
+  # - Push changes back to github
+  on-signature-update:
+    when: << pipeline.parameters.UPDATE_SIGNATURE >>
+    jobs:
+      - jahia-modules-orb/update-signature:
+          context: QA_ENVIRONMENT
+          pre-steps:
+            - jahia-modules-orb/update-signature-prestep
+          ssh_key_fingerprints:  << pipeline.parameters.SSH_KEY_FINGERPRINT >>
+
