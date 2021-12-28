@@ -28,5 +28,10 @@
             <username>${env.NEXUS_RELEASE_USERNAME}</username>
             <password>${env.NEXUS_RELEASE_PASSWORD}</password>
         </server>
+        <server>
+            <id>jahia-releases</id>
+            <username>${env.NEXUS_USERNAME}</username>
+            <password>${env.NEXUS_PASSWORD}</password>
+        </server>
     </servers>
 </settings>
