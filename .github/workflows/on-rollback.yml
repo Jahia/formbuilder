@@ -1,0 +1,28 @@
+# This workflow is triggered when someone deletes a release from GitHub UI
+name: Trigger Release rollback
+
+on:
+  release:
+    types: [deleted]
+
+jobs:
+  on-rollback:
+    runs-on: ubuntu-latest
+    steps:
+      # Providing the SSH PRIVATE of a user part of an admin group
+      # is necessary to bypass PR checks
+      - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.GH_SSH_PRIVATE_KEY_JAHIACI }}
+
+      # Setting up the SSH agent to be able to commit back to the repository
+      # https://github.com/webfactory/ssh-agent
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.GH_SSH_PRIVATE_KEY_JAHIACI }}
+
+      - uses: jahia/jahia-modules-action/release-rollback@v2
+        name: Release Module
+        with:
+          release_id: ${{ github.event.release.id }}
+          release_version: ${{ github.event.release.tag_name }}
