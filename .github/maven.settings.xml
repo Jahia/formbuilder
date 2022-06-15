@@ -15,7 +15,7 @@
                 <repository>
                     <id>jahia-internal</id>
                     <name>Jahia Internal Repository</name>
-                    <url>${env.NEXUS_INTERNAL_URL}</url>
+                    <url>https://devtools.jahia.com/nexus/content/groups/internal/</url>
                     <releases>
                         <enabled>true</enabled>
                         <updatePolicy>never</updatePolicy>

@@ -26,4 +26,3 @@ jobs:
         with:
           release_id: ${{ github.event.release.id }}
           release_version: ${{ github.event.release.tag_name }}
-          mvn_settings_filepath: '.github/maven.settings.xml'

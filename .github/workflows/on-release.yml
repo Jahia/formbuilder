@@ -45,7 +45,6 @@ jobs:
           github_api_token: ${{ secrets.GH_API_TOKEN }}
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
-          mvn_settings_filepath: '.github/maven.settings.xml'
 
       - uses: jahia/jahia-modules-action/update-signature@v2
         with:

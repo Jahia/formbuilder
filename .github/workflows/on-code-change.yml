@@ -33,8 +33,6 @@ jobs:
     name: Build Module
     needs: update-signature
     runs-on: ubuntu-latest
-    env:
-      NEXUS_INTERNAL_URL: https://devtools.jahia.com/nexus/content/groups/internal/
     container:
       image: jahia/cimg-mvn-cache:ga_cimg_openjdk_8.0.312-node
       credentials:
@@ -47,7 +45,7 @@ jobs:
           nexus_username: ${{ secrets.NEXUS_USERNAME }}
           nexus_password: ${{ secrets.NEXUS_PASSWORD }}
           module_id: formbuilder
-          mvn_settings_filepath: '.github/maven.settings.xml'
+
   sonar-analysis:
     name: Sonar Analysis
     needs: build
@@ -60,4 +58,3 @@ jobs:
           github_pr_id: ${{github.event.number}}
           sonar_url: ${{ secrets.SONAR_URL }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
-          mvn_settings_filepath: '.github/maven.settings.xml'
