@@ -101,7 +101,7 @@ orderable
  - min (long) mandatory
  - max (long) mandatory
 
-[jnt:captcha] > jnt:formElement
+[jnt:captcha] > jnt:formElement, jmix:hiddenType
 
 [jnt:fileElement] > jnt:formElement
 
