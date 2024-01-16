@@ -65,7 +65,7 @@
     </scm>
     <properties>
         <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
-        <jahia-module-signature>MCwCFCESXlAJ9+/j/JfO0iuN/+dwXnclAhQbhxDfJMPzyONZ+eJB3G9kE9qyqw==</jahia-module-signature>
+        <jahia-module-signature>MCwCFF8qtxSwn/YYj3EsxtxOFORg6u7bAhQNDs+gpFMbGpGhIZaxgvw90DnOTQ==</jahia-module-signature>
     </properties>
     <distributionManagement>
         <repository>
