@@ -28,7 +28,7 @@
         GNU General Public License for more details.
 
         You should have received a copy of the GNU General Public License
-        along with this program. If not, see <http://www.gnu.org/licenses/>.
+        along with this program. If not, see <http://www.gnu.org/licenses />.
 
 
         2/ JSEL - Commercial and Supported Versions of the program
@@ -44,17 +44,16 @@
         please contact the sales department at sales@jahia.com.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jahia.modules</groupId>
         <artifactId>jahia-modules</artifactId>
         <version>8.1.3.0</version>
-        <relativePath/>
+        <relativePath />
     </parent>
     <artifactId>formbuilder</artifactId>
-    <version>4.0.0-SNAPSHOT</version>
+    <version>4.0.0</version>
     <packaging>bundle</packaging>
     <name>Jahia Form Builder</name>
     <description>These are the custom module (Jahia Form Builder) for running on a Jahia server.</description>
@@ -62,7 +61,7 @@
         <connection>scm:git:git@github.com:Jahia/formbuilder.git</connection>
         <developerConnection>scm:git:git@github.com:Jahia/formbuilder.git</developerConnection>
         <url>scm:git:git@github.com:Jahia/formbuilder.git</url>
-        <tag>HEAD</tag>
+        <tag>4_0_0</tag>
     </scm>
     <properties>
         <require-capability>osgi.extender;filter:="(osgi.extender=org.jahia.bundles.blueprint.extender.config)"</require-capability>
